@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Container,
   LogoContainer,
@@ -9,10 +9,15 @@ import {
   IssuesIllustration,
   SearchButton,
   InputWithHelpText,
-  IssuesList
+  IssuesList,
+  SearchWithPaginationWrapper,
+  PaginationContainer,
+  PageControlButton,
+  PageNo
 } from "./styledComponents";
 import Issue from "../Issue";
 import { AnimatePresence } from "framer-motion";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 const Home = () => {
   const [searched, setSearched] = useState(false);
@@ -21,7 +26,19 @@ const Home = () => {
     issuesList: [],
     error: false
   });
+
+  const [pageNo, setPageNo] = useState(1);
   const [searchText, setSearchText] = useState("");
+
+  const firstUpdate = useRef(true);
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    searchForIssues();
+  }, [pageNo]);
 
   const list = {
     visible: {
@@ -80,12 +97,13 @@ const Home = () => {
   };
 
   const searchForIssues = async (event) => {
-    event.preventDefault();
+    event && event.preventDefault();
+    console.log(pageNo);
     setSearched(true);
     try {
       setIssues({ ...issues, loading: true, error: false });
       const response = await fetch(
-        `https://api.github.com/repos/${searchText}/issues`
+        `https://api.github.com/repos/${searchText}/issues?page=${pageNo}&&per_page=10`
       );
       if (response.ok) {
         const json = await response.json();
@@ -105,6 +123,16 @@ const Home = () => {
     setIssues({ ...issues, issuesList: [], error: false });
   };
 
+  const onClickBack = () => {
+    if (pageNo > 1) {
+      setPageNo(pageNo - 1);
+    }
+  };
+
+  const onClickFront = () => {
+    setPageNo(pageNo + 1);
+  };
+
   return (
     <Container
       initial="hidden"
@@ -117,21 +145,34 @@ const Home = () => {
         <Logo src="/GitHub.png" layout searched={searched} />
         <LogoHeading searched={searched}>GitHub Issues</LogoHeading>
       </LogoContainer>
-      <Label onSubmit={searchForIssues} variants={item}>
-        <InputWithHelpText>
-          <Input
-            error={issues.error}
-            required
-            onChange={onSearchTextChange}
-            value={searchText}
-            type="search"
-            id="search"
-            placeholder="search for username/repo"
-          />
-          *search for github public repo issues here
-        </InputWithHelpText>
-        <SearchButton>Search</SearchButton>
-      </Label>
+      <SearchWithPaginationWrapper variants={item}>
+        <Label onSubmit={searchForIssues}>
+          <InputWithHelpText>
+            <Input
+              error={issues.error}
+              required
+              onChange={onSearchTextChange}
+              value={searchText}
+              type="search"
+              id="search"
+              placeholder="search for username/repo"
+            />
+            *search for github public repo issues here
+          </InputWithHelpText>
+          <SearchButton>Search</SearchButton>
+        </Label>
+        {searched && (
+          <PaginationContainer>
+            <PageControlButton onClick={onClickBack}>
+              <MdKeyboardArrowLeft />
+            </PageControlButton>
+            <PageNo readOnly type="string" value={pageNo} />
+            <PageControlButton onClick={onClickFront}>
+              <MdKeyboardArrowRight />
+            </PageControlButton>
+          </PaginationContainer>
+        )}
+      </SearchWithPaginationWrapper>
       <AnimatePresence exitBeforeEnter>
         {!searched ? (
           <IssuesIllustration src="/issues.jpg" variants={item} />

@@ -39,7 +39,12 @@ function Issue({ issue, custom, searchText, ...others }) {
   const renderTags = () => {
     return issue.labels.map((label) => {
       return (
-        <Tags href={label.url} target="_blank" color={label.color}>
+        <Tags
+          key={label.id}
+          href={label.url}
+          target="_blank"
+          color={label.color}
+        >
           {label.name}
         </Tags>
       );
@@ -74,7 +79,7 @@ function Issue({ issue, custom, searchText, ...others }) {
         </Pr>
       )}
       {issue.comments > 0 && (
-        <Comments>
+        <Comments href={`/${searchText}/${issue.number}`} target="_blank">
           <AiOutlineComment />
           <CommentsText>{issue.comments}</CommentsText>
         </Comments>

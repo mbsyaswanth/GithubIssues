@@ -44,6 +44,13 @@ export const Label = styled(motion.form)`
   align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
+`;
+
+export const SearchWithPaginationWrapper = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   position: sticky;
   top: 70px;
   background: white;
@@ -109,4 +116,44 @@ export const InputWithHelpText = styled(motion.span)`
 export const IssuesList = styled(motion.div)`
   margin-top: 10px;
   padding: 0px 15px;
+`;
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 4px;
+`;
+
+export const PageNo = styled(motion.input)`
+  margin: 0px 15px;
+  width: 40px;
+  padding: 3px;
+  border: 2px solid #457b9d;
+  box-sizing: border-box;
+  border-radius: 7px;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  ::placeholder {
+    /* color: #a8dadc; */
+  }
+`;
+export const PageControlButton = styled(motion.button)`
+  display: flex;
+  font-size: 25px;
+  padding: 0px;
+  margin: auto 0;
+  background: white;
+  color: #457b9d;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.1s linear;
+  :focus {
+    outline: none;
+  }
+  :hover {
+    background: #b8daefeb;
+  }
 `;
