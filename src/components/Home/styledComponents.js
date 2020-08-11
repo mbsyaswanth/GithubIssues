@@ -72,7 +72,7 @@ export const Input = styled(motion.input)`
     /* color: #a8dadc; */
   }
   @media (max-width: 500px) {
-    width: 275px;
+    width: ${(props) => (props.searched ? 270 : 300)}px;
   }
 `;
 

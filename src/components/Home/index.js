@@ -149,6 +149,7 @@ const Home = () => {
         <Label onSubmit={searchForIssues}>
           <InputWithHelpText>
             <Input
+              searched={searched}
               error={issues.error}
               required
               onChange={onSearchTextChange}
