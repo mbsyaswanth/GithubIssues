@@ -70,7 +70,12 @@ const Home = () => {
 
   const displayIssues = () => {
     return issues.issuesList.map((issue, i) => (
-      <Issue key={issue.number} issue={issue} custom={i} />
+      <Issue
+        key={issue.number}
+        searchText={searchText}
+        issue={issue}
+        custom={i}
+      />
     ));
   };
 

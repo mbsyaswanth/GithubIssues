@@ -33,7 +33,7 @@ const issueItem = {
   exit: { opacity: 1 }
 };
 
-function Issue({ issue, custom, ...others }) {
+function Issue({ issue, custom, searchText, ...others }) {
   const { title } = issue;
 
   const renderTags = () => {
@@ -52,7 +52,7 @@ function Issue({ issue, custom, ...others }) {
       </IssueIcon>
       <IssueTextContainer>
         <TextWithTags>
-          <HeadingText href={issue.html_url} target="_blank">
+          <HeadingText href={`/${searchText}/${issue.number}`} target="_blank">
             {title}
           </HeadingText>
           {renderTags()}
