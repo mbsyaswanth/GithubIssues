@@ -38,4 +38,8 @@ export const AvatarComment = styled(motion.div)`
   border-radius: 6px;
   white-space: pre-line;
   background: #f5f5f5c4;
+  @media (max-width: 450px) {
+    max-width: 255px;
+    overflow: scroll;
+  }
 `;
