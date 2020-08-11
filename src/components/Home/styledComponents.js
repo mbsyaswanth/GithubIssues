@@ -157,4 +157,13 @@ export const PageControlButton = styled(motion.button)`
   :hover {
     background: #b8daefeb;
   }
+  :disabled {
+    color: #457b9d94;
+  }
+`;
+
+export const End = styled(motion.div)`
+  font-size: 500;
+  font-weight: 15px;
+  margin: 10px 0;
 `;

@@ -13,7 +13,8 @@ import {
   SearchWithPaginationWrapper,
   PaginationContainer,
   PageControlButton,
-  PageNo
+  PageNo,
+  End
 } from "./styledComponents";
 import Issue from "../Issue";
 import { AnimatePresence } from "framer-motion";
@@ -24,7 +25,8 @@ const Home = () => {
   const [issues, setIssues] = useState({
     loading: false,
     issuesList: [],
-    error: false
+    error: false,
+    end: false
   });
 
   const [pageNo, setPageNo] = useState(1);
@@ -101,14 +103,22 @@ const Home = () => {
     console.log(pageNo);
     setSearched(true);
     try {
-      setIssues({ ...issues, loading: true, error: false });
+      setIssues((state) => ({
+        ...state,
+        loading: true,
+        error: false,
+        end: false
+      }));
       const response = await fetch(
         `https://api.github.com/repos/${searchText}/issues?page=${pageNo}&&per_page=10`
       );
       if (response.ok) {
         const json = await response.json();
-        setIssues({ ...issues, loading: false });
-        setIssues({ ...issues, issuesList: json });
+        if (json.length === 0) {
+          console.log("no more issues");
+          setIssues((state) => ({ ...state, end: true }));
+        }
+        setIssues((state) => ({ ...state, issuesList: json, loading: false }));
       } else {
         throw new Error("Network response was not ok.");
       }
@@ -120,7 +130,7 @@ const Home = () => {
 
   const onSearchTextChange = (event) => {
     setSearchText(event.target.value);
-    setIssues({ ...issues, issuesList: [], error: false });
+    setIssues({ ...issues, issuesList: [], error: false, end: false });
   };
 
   const onClickBack = () => {
@@ -141,6 +151,7 @@ const Home = () => {
       variants={list}
       searched={searched}
     >
+      {console.log("end issues", issues.end)}
       <LogoContainer variants={item} searched={searched} layout>
         <Logo src="/GitHub.png" layout searched={searched} />
         <LogoHeading searched={searched}>GitHub Issues</LogoHeading>
@@ -168,13 +179,13 @@ const Home = () => {
               <MdKeyboardArrowLeft />
             </PageControlButton>
             <PageNo readOnly type="string" value={pageNo} />
-            <PageControlButton onClick={onClickFront}>
+            <PageControlButton onClick={onClickFront} disabled={issues.end}>
               <MdKeyboardArrowRight />
             </PageControlButton>
           </PaginationContainer>
         )}
       </SearchWithPaginationWrapper>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence>
         {!searched ? (
           <IssuesIllustration src="/issues.jpg" variants={item} />
         ) : (
@@ -182,6 +193,7 @@ const Home = () => {
             {displayIssues()}
           </IssuesList>
         )}
+        {issues.end && <End>.. That's it for now .. </End>}
       </AnimatePresence>
     </Container>
   );
