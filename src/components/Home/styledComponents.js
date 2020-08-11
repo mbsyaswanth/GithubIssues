@@ -62,6 +62,7 @@ export const Input = styled(motion.input)`
   margin: 10px 0px;
   width: 445px;
   padding: 10px;
+  padding-right: 5px;
   border: 2px solid ${(props) => (props.error ? "red" : "#457b9d")};
   box-sizing: border-box;
   border-radius: 7px;
@@ -71,7 +72,7 @@ export const Input = styled(motion.input)`
     /* color: #a8dadc; */
   }
   @media (max-width: 500px) {
-    width: 300px;
+    width: 275px;
   }
 `;
 

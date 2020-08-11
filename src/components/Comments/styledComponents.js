@@ -73,6 +73,7 @@ export const CommentsContainer = styled(motion.div)`
   justify-content: center;
   padding: 5px 15px;
   flex-direction: column;
+  box-sizing: border-box;
 `;
 
 export const IssueStatus = styled(motion.button)`

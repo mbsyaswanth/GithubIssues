@@ -155,7 +155,7 @@ const Home = () => {
               value={searchText}
               type="search"
               id="search"
-              placeholder="search for username/repo"
+              placeholder="search for username/repository"
             />
             *search for github public repo issues here
           </InputWithHelpText>

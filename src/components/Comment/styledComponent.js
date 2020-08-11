@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 export const CommentWrapper = styled(motion.div)`
-  margin-bottom: 15px;
   display: flex;
   padding: 10px 0px;
   margin-bottom: 5px;
@@ -13,7 +12,6 @@ export const Avatar = styled(motion.img)`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  padding-left: 10px;
 `;
 
 export const AvatarInfoContainer = styled(motion.div)`
@@ -38,6 +36,6 @@ export const AvatarComment = styled(motion.div)`
   margin-top: 5px;
   margin-bottom: 5px;
   border-radius: 6px;
-  flex-grow: 1;
+  white-space: pre-line;
   background: #f5f5f5c4;
 `;
