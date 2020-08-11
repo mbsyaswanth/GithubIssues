@@ -1,5 +1,7 @@
 import React from "react";
-import { GoIssueOpened } from "react-icons/go";
+
+import { GoIssueOpened, GoGitPullRequest } from "react-icons/go";
+import { AiOutlineComment } from "react-icons/ai";
 
 import {
   IssueContainer,
@@ -8,7 +10,13 @@ import {
   TextWithTags,
   HeadingText,
   Tags,
-  InfoText
+  InfoText,
+  Comments,
+  CommentsText,
+  Pr,
+  PrText,
+  Assignee,
+  AssigneeImg
 } from "./styledComponents";
 import moment from "moment";
 
@@ -55,6 +63,22 @@ function Issue({ issue, custom, ...others }) {
           }`}
         </InfoText>
       </IssueTextContainer>
+      {issue.assignee && (
+        <Assignee href={issue.assignee.html_url} target="_blank">
+          <AssigneeImg src={issue.assignee.avatar_url} />
+        </Assignee>
+      )}
+      {issue.pull_request && (
+        <Pr href={issue.pull_request?.html_url} target="_blank">
+          <GoGitPullRequest /> <PrText>1</PrText>
+        </Pr>
+      )}
+      {issue.comments > 0 && (
+        <Comments>
+          <AiOutlineComment />
+          <CommentsText>{issue.comments}</CommentsText>
+        </Comments>
+      )}
     </IssueContainer>
   );
 }

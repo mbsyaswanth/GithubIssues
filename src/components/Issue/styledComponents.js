@@ -65,3 +65,48 @@ export const InfoText = styled(motion.div)`
   font-size: 12px;
   padding-top: 4px;
 `;
+
+export const Comments = styled(motion.a)`
+  color: #1d3557;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0 3px;
+  display: flex;
+  padding-top: 2px;
+`;
+
+export const CommentsText = styled(motion.span)`
+  font-size: 12px;
+  padding-left: 1px;
+`;
+
+export const Pr = styled(motion.a)`
+  color: #1d3557;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0 10px;
+  display: flex;
+  margin: 0 10px;
+  padding-top: 2px;
+`;
+
+export const PrText = styled(CommentsText)``;
+
+export const Assignee = styled(motion.a)`
+  color: #1d3557;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0 10px;
+  display: flex;
+  margin: 0 10px;
+`;
+
+export const AssigneeImg = styled(motion.img)`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 0 10px;
+`;

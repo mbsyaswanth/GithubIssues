@@ -16,7 +16,11 @@ import { AnimatePresence } from "framer-motion";
 
 const Home = () => {
   const [searched, setSearched] = useState(false);
-  const [issues, setIssues] = useState({ loading: false, issuesList: [] });
+  const [issues, setIssues] = useState({
+    loading: false,
+    issuesList: [],
+    error: false
+  });
   const [searchText, setSearchText] = useState("");
 
   const list = {
@@ -70,21 +74,30 @@ const Home = () => {
     ));
   };
 
-  const searchForIssues = async () => {
+  const searchForIssues = async (event) => {
+    event.preventDefault();
     setSearched(true);
-    const response = await fetch(
-      `https://api.github.com/repos/${searchText}/issues`
-    );
-    if (response.ok) {
-      const json = await response.json();
-      setIssues({ ...issues, issuesList: json });
-    } else {
-      console.log("error getting response");
+    try {
+      setIssues({ ...issues, loading: true, error: false });
+      const response = await fetch(
+        `https://api.github.com/repos/${searchText}/issues`
+      );
+      if (response.ok) {
+        const json = await response.json();
+        setIssues({ ...issues, loading: false });
+        setIssues({ ...issues, issuesList: json });
+      } else {
+        throw new Error("Network response was not ok.");
+      }
+    } catch (err) {
+      console.log("catched error", err);
+      setIssues({ ...issues, error: err, loading: false });
     }
   };
 
   const onSearchTextChange = (event) => {
     setSearchText(event.target.value);
+    setIssues({ ...issues, issuesList: [], error: false });
   };
 
   return (
@@ -99,9 +112,11 @@ const Home = () => {
         <Logo src="/GitHub.png" layout searched={searched} />
         <LogoHeading searched={searched}>GitHub Issues</LogoHeading>
       </LogoContainer>
-      <Label for="search" variants={item}>
+      <Label onSubmit={searchForIssues} variants={item}>
         <InputWithHelpText>
           <Input
+            error={issues.error}
+            required
             onChange={onSearchTextChange}
             value={searchText}
             type="search"
@@ -110,7 +125,7 @@ const Home = () => {
           />
           *search for github public repo issues here
         </InputWithHelpText>
-        <SearchButton onClick={searchForIssues}>Search</SearchButton>
+        <SearchButton>Search</SearchButton>
       </Label>
       <AnimatePresence exitBeforeEnter>
         {!searched ? (

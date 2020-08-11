@@ -35,7 +35,7 @@ export const LogoHeading = styled(motion.h2)`
   margin-top: ${(props) => (props.searched ? "revert" : "15px")};
 `;
 
-export const Label = styled(motion.label)`
+export const Label = styled(motion.form)`
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
@@ -55,7 +55,7 @@ export const Input = styled(motion.input)`
   margin: 10px 0px;
   width: 445px;
   padding: 10px;
-  border: 2px solid #457b9d;
+  border: 2px solid ${(props) => (props.error ? "red" : "#457b9d")};
   box-sizing: border-box;
   border-radius: 7px;
   font-weight: bold;
